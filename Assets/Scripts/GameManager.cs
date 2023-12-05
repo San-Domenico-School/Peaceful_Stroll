@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
         timedGame = timed;
     }
 
-    public static void ChangeScore(int change)
+    public static void ChangeScore(float change)
     {
         score += change;
     }
@@ -134,8 +134,8 @@ public class GameManager : MonoBehaviour
         runnerGame.SetActive(false); 
         CancelInvoke();
         miniGame = true;
-        
-        if(UIController.right)
+
+        if (UIController.right)
         {
             runnerGame.SetActive(true);
             kahootPanel.SetActive(false);

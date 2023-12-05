@@ -7,9 +7,8 @@ public class QuizController : MonoBehaviour
     private QuizQuestion currentQuestion;
     private UIController uiController;
 
-    
-    public static float delayBetweenQuestions = 3f;
 
+    public static float delayBetweenQuestions;
     private void Awake()
     {
         questionCollection = FindObjectOfType<QuestionCollection>();
