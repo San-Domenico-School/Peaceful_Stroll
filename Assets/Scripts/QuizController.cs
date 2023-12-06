@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuizController : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class QuizController : MonoBehaviour
     private UIController uiController;
 
 
-    public static float delayBetweenQuestions;
+    public static float delayBetweenQuestions = 2.0f;
     private void Awake()
     {
         questionCollection = FindObjectOfType<QuestionCollection>();
@@ -30,13 +31,18 @@ public class QuizController : MonoBehaviour
     {
         bool isCorrect = answerNumber == currentQuestion.CorrectAnswer;
         uiController.HandleSubmittedAnswer(isCorrect);
+        InvokeRepeating("SwitchToGame", 1, 1);
         
-        StartCoroutine(ShowNextQuestionAfterDelay());
     }
 
-    private IEnumerator ShowNextQuestionAfterDelay()
+    private void SwitchToGame()
     {
-        yield return new WaitForSeconds(delayBetweenQuestions);
-        
+        delayBetweenQuestions--;
+
+        if (delayBetweenQuestions <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
+
     }
 }

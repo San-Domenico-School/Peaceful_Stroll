@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 /***************************************************
  * 
  * 
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     private bool timedGame;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
+    private bool gameInProgress;
     
     
 
@@ -36,13 +38,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
     private void Update()
     {
+        GameInProgress();
         DisplayUI();
-
         EndGame();
     }
 
@@ -86,11 +89,14 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         audioSource.Play();
+        
+        
 
         toggleGroup.SetActive(false);
         startButton.SetActive(false);
         if(timedGame)
         {
+            gameInProgress = true;
             timeRemainingText.gameObject.SetActive(true);
             InvokeRepeating("TimeCountdown", 1,1);
         }
@@ -130,18 +136,18 @@ public class GameManager : MonoBehaviour
 
     private void StartMiniGame()
     {
-        kahootPanel.SetActive(true);
-        runnerGame.SetActive(false); 
-        CancelInvoke();
-        miniGame = true;
+        SceneManager.LoadScene(1);
 
-        if (UIController.right)
+        
+    }
+
+    private void GameInProgress()
+    {
+        if(gameInProgress == true)
         {
-            runnerGame.SetActive(true);
-            kahootPanel.SetActive(false);
-            ChangeScore(5);
-            InvokeRepeating("TimeCountdown", 1,1);
-            miniGame = false;
+            timeRemainingText.gameObject.SetActive(true);
+            toggleGroup.SetActive(false);
+            startButton.SetActive(false);
         }
     }
 }
