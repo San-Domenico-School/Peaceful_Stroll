@@ -16,9 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeRemainingText;
     [SerializeField] GameObject toggleGroup;
     [SerializeField] GameObject startButton;
-    [SerializeField] GameObject kahootPanel;
     [SerializeField] GameObject spawnManager;
-    [SerializeField] GameObject runnerGame;
     [SerializeField] Animator playerAnimator;
     [SerializeField] ParticleSystem dirtSplatter;
     public static bool gameOver = true;
@@ -27,10 +25,11 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
     private int timeRemaining = 60;
     private int miniGameCooldown = 15;
-    private bool timedGame;
+    public static bool timedGame = false;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
     private bool gameInProgress;
+    private static GameObject lastObject;
     
     
 
@@ -39,11 +38,16 @@ public class GameManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         DontDestroyOnLoad(gameObject);
+        lastObject = gameObject;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if(gameObject != lastObject && lastObject != null)
+        {
+            Destroy(gameObject);
+        }
         GameInProgress();
         DisplayUI();
         EndGame();
@@ -91,12 +95,12 @@ public class GameManager : MonoBehaviour
         audioSource.Play();
         
         
-
+        gameInProgress = true;
         toggleGroup.SetActive(false);
         startButton.SetActive(false);
         if(timedGame)
         {
-            gameInProgress = true;
+            
             timeRemainingText.gameObject.SetActive(true);
             InvokeRepeating("TimeCountdown", 1,1);
         }
@@ -136,6 +140,7 @@ public class GameManager : MonoBehaviour
 
     private void StartMiniGame()
     {
+        gameInProgress = true;
         SceneManager.LoadScene(1);
 
         
@@ -143,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     private void GameInProgress()
     {
-        if(gameInProgress == true)
+        if(gameInProgress)
         {
             timeRemainingText.gameObject.SetActive(true);
             toggleGroup.SetActive(false);
