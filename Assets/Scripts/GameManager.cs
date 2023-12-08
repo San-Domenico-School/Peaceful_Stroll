@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 /***************************************************
  * 
  * 
@@ -15,20 +16,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeRemainingText;
     [SerializeField] GameObject toggleGroup;
     [SerializeField] GameObject startButton;
-    [SerializeField] GameObject kahootPanel;
     [SerializeField] GameObject spawnManager;
-    [SerializeField] GameObject runnerGame;
     [SerializeField] Animator playerAnimator;
     [SerializeField] ParticleSystem dirtSplatter;
     public static bool gameOver = true;
     public static bool miniGame = false;
-    private static float score;
+    public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
     private int miniGameCooldown = 15;
-    private bool timedGame;
+    public static bool timedGame = false;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
+    private bool gameInProgress;
+    private static GameObject lastObject;
     
     
 
@@ -36,13 +37,19 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        DontDestroyOnLoad(gameObject);
+        lastObject = gameObject;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if(gameObject != lastObject && lastObject != null)
+        {
+            Destroy(gameObject);
+        }
+        GameInProgress();
         DisplayUI();
-
         EndGame();
     }
 
@@ -86,11 +93,14 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         audioSource.Play();
-
+        
+        
+        gameInProgress = true;
         toggleGroup.SetActive(false);
         startButton.SetActive(false);
         if(timedGame)
         {
+            
             timeRemainingText.gameObject.SetActive(true);
             InvokeRepeating("TimeCountdown", 1,1);
         }
@@ -123,25 +133,26 @@ public class GameManager : MonoBehaviour
         timedGame = timed;
     }
 
-    public static void ChangeScore(int change)
+    public static void ChangeScore(float change)
     {
         score += change;
     }
 
     private void StartMiniGame()
     {
-        kahootPanel.SetActive(true);
-        runnerGame.SetActive(false); 
-        CancelInvoke();
-        miniGame = true;
+        gameInProgress = true;
+        SceneManager.LoadScene(1);
+
         
-        if(UIController.right)
+    }
+
+    private void GameInProgress()
+    {
+        if(gameInProgress)
         {
-            runnerGame.SetActive(true);
-            kahootPanel.SetActive(false);
-            ChangeScore(5);
-            InvokeRepeating("TimeCountdown", 1,1);
-            miniGame = false;
+            timeRemainingText.gameObject.SetActive(true);
+            toggleGroup.SetActive(false);
+            startButton.SetActive(false);
         }
     }
 }

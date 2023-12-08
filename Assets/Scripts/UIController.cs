@@ -41,7 +41,7 @@ public class UIController : MonoBehaviour
         if (isCorrect)
         {
             ShowCorrectAnswerPopup();
-            right = true;
+            
         }
         else
         {
@@ -60,6 +60,7 @@ public class UIController : MonoBehaviour
     private void ShowCorrectAnswerPopup()
     {
         correctAnswerPopup.SetActive(true);
+        right = true;
     }
 
     private void ShowWrongAnswerPopup()
