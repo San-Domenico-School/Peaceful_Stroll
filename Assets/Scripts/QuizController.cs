@@ -41,7 +41,7 @@ public class QuizController : MonoBehaviour
 
         if (delayBetweenQuestions <= 0)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
 
     }

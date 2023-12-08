@@ -44,9 +44,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(gameObject != lastObject && lastObject != null)
+        //if(gameObject != lastObject && lastObject != null)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         GameInProgress();
         DisplayUI();
