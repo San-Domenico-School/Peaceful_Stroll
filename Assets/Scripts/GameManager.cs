@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] ParticleSystem dirtSplatter;
     public static bool gameOver = true;
     public static bool miniGame = false;
-    private static float score;
+    public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
     private int miniGameCooldown = 15;
