@@ -44,10 +44,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //if(gameObject != lastObject && lastObject != null)
-        {
-            //Destroy(gameObject);
-        }
+       
         GameInProgress();
         DisplayUI();
         EndGame();
@@ -98,6 +95,10 @@ public class GameManager : MonoBehaviour
         gameInProgress = true;
         toggleGroup.SetActive(false);
         startButton.SetActive(false);
+        if(QuizController.backToGame)
+        {
+            playerAnimator.SetBool("BeginGame_b", true);
+        }
         if(timedGame)
         {
             
