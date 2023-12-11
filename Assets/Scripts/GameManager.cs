@@ -140,6 +140,7 @@ public class GameManager : MonoBehaviour
     {
         gameInProgress = true;
         SceneManager.LoadScene(1);
+        
 
         
     }
