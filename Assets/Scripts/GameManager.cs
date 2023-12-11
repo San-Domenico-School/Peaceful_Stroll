@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
-    private int miniGameCooldown = 15;
+    private int miniGameCooldown = 2;
     public static bool timedGame = false;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-       
+        BackToGame();
         GameInProgress();
         DisplayUI();
         EndGame();
@@ -95,10 +95,7 @@ public class GameManager : MonoBehaviour
         gameInProgress = true;
         toggleGroup.SetActive(false);
         startButton.SetActive(false);
-        if(QuizController.backToGame)
-        {
-            playerAnimator.SetBool("BeginGame_b", true);
-        }
+        
         if(timedGame)
         {
             
@@ -155,6 +152,15 @@ public class GameManager : MonoBehaviour
             toggleGroup.SetActive(false);
             startButton.SetActive(false);
         }
+    }
+    private void BackToGame()
+    {
+        if (QuizController.backToGame)
+        {
+            playerAnimator.SetBool("BeginGame_b", true);
+            playerAnimator.SetFloat("Speed_f", 1.0f);
+            Debug.Log("working");
+        };
     }
 }
 

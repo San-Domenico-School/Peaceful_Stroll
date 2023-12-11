@@ -26,19 +26,21 @@ public class PlayerController : MonoBehaviour
     // initializes player rigidbody, sets ground to true and sets gravity
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
+       
+        
+            transform.position = new Vector3(12.8f, .12f, .2f);
+            
+        
+        
+        
         playerAudio = GetComponent<AudioSource>();
         playerAnimation = GetComponent<Animator>();
 
         playerRB = GetComponent<Rigidbody>();
         isOnGround = true;
         Physics.gravity *= gravityModifier;
-        if(QuizController.backToGame)
-        {
-            Debug.Log("back to game");
-            playerRB = GetComponent<Rigidbody>();
-            isOnGround = true;
-            Physics.gravity *= gravityModifier;
-        }
+       
     }
     // on collision with ground sets ground equal to true
     private void OnCollisionEnter(Collision collision)
