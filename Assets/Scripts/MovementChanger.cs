@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /********************************************
  * This will increase or decrease the speed
  * of the player regarding on if the score 
- * increase or decrease.
+ * increase or decrease. Attached to the component of the player.
  * 
  * Naty Kozelkova
  * December 08, 2023 Version 1.0
@@ -14,6 +14,7 @@ using UnityEngine.InputSystem;
 
 public class MovementChanger : MonoBehaviour
 {
+    [SerializeField] Animator playerAnimator;
     private float score;
     
 
@@ -21,11 +22,12 @@ public class MovementChanger : MonoBehaviour
     void Start()
     {
         score = GameManager.score;
+        playerAnimator.SetFloat("Speed_f", 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+     
     }
 }

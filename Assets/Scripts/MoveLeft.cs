@@ -6,12 +6,15 @@ public class MoveLeft : MonoBehaviour
 {
     private float speed;
     private float leftBound;
+    private float currentScore;
     private PlayerController playerControllerScript;
 
     private void Start()
     {
         speed = 30;
         leftBound = -15;
+        currentScore = GameManager.score;
+
     }
 
     // Update is called once per frame
@@ -28,6 +31,25 @@ public class MoveLeft : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        SetSpeed();
         
+    }
+
+    private void SetSpeed()
+    {
+        float newScore = GameManager.score;
+        if(newScore > currentScore)
+        {
+            currentScore = newScore;
+            StartCoroutine(ChangeSpeed());
+        }
+    }
+
+    IEnumerator ChangeSpeed()
+    {
+        speed = 5;
+        yield return new WaitForSeconds(9);
+        speed = 30;
     }
 }
