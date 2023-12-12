@@ -24,33 +24,34 @@ public class GameManager : MonoBehaviour
     public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
-    private int miniGameCooldown = 15;
+    private int miniGameCooldown = 10;
     public static bool timedGame = false;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
-    private bool gameInProgress;
+    public static bool gameInProgress;
     private static GameObject lastObject;
+    private static GameManager instance;
+    public static float speed = 30f;
+
     
-    
+
 
     // Start is called before the first frame update
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        DontDestroyOnLoad(gameObject);
-        lastObject = gameObject;
+        
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if(gameObject != lastObject && lastObject != null)
-        {
-            Destroy(gameObject);
-        }
+        BackToGame();
         GameInProgress();
         DisplayUI();
         EndGame();
+
+        
     }
 
     private void DisplayUI()
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour
         gameInProgress = true;
         toggleGroup.SetActive(false);
         startButton.SetActive(false);
+        
         if(timedGame)
         {
             
@@ -142,6 +144,8 @@ public class GameManager : MonoBehaviour
     {
         gameInProgress = true;
         SceneManager.LoadScene(1);
+        QuizController.backToGame = false;
+        
 
         
     }
@@ -154,6 +158,17 @@ public class GameManager : MonoBehaviour
             toggleGroup.SetActive(false);
             startButton.SetActive(false);
         }
+    }
+    public void BackToGame()
+    {
+        if (QuizController.backToGame)
+        {
+            playerAnimator.SetBool("BeginGame_b", true);
+            playerAnimator.SetFloat("Speed_f", 1.0f);
+            miniGameCooldown = 10;
+            InvokeRepeating("TimeCountdown", 1, 1);
+            Debug.Log("working");
+        };
     }
 }
 

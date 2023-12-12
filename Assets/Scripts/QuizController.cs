@@ -8,8 +8,10 @@ public class QuizController : MonoBehaviour
     private QuizQuestion currentQuestion;
     private UIController uiController;
 
+    public static bool backToGame;
 
     public static float delayBetweenQuestions = 2.0f;
+
     private void Awake()
     {
         questionCollection = FindObjectOfType<QuestionCollection>();
@@ -41,6 +43,7 @@ public class QuizController : MonoBehaviour
 
         if (delayBetweenQuestions <= 0)
         {
+            backToGame = true;
             SceneManager.LoadScene(0);
         }
 

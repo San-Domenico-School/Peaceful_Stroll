@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce, gravityModifier;
     [SerializeField] private ParticleSystem dirtParticle, explosionParticle;
     [SerializeField] private AudioClip jumpSound, crashSound;
-
+    [SerializeField] private GameManager gameManager;
     private Animator playerAnimation;
     private AudioSource playerAudio;
     private Rigidbody playerRB;
@@ -26,12 +26,24 @@ public class PlayerController : MonoBehaviour
     // initializes player rigidbody, sets ground to true and sets gravity
     private void Start()
     {
+        if(GameManager.gameInProgress)
+        {
+            gameManager.BackToGame();
+        }
+       
+        
+            transform.position = new Vector3(12.8f, .12f, .2f);
+            
+        
+        
+        
         playerAudio = GetComponent<AudioSource>();
         playerAnimation = GetComponent<Animator>();
 
         playerRB = GetComponent<Rigidbody>();
         isOnGround = true;
         Physics.gravity *= gravityModifier;
+       
     }
     // on collision with ground sets ground equal to true
     private void OnCollisionEnter(Collision collision)
@@ -41,6 +53,7 @@ public class PlayerController : MonoBehaviour
             if(!GameManager.gameOver)
             {
                 dirtParticle.Play();
+                Debug.Log("on ground");
             }
             isOnGround = true;
         }
@@ -51,6 +64,7 @@ public class PlayerController : MonoBehaviour
             explosionParticle.Play();
             dirtParticle.Stop();
             playerAudio.PlayOneShot(crashSound, 1.0f);
+            
         }
     }
     // if grounded and jump input is pressed the character will be launched vertically equal to jump force
@@ -63,6 +77,7 @@ public class PlayerController : MonoBehaviour
             isOnGround = false;
             playerAnimation.SetTrigger("Jump_trig");
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Debug.Log("jump is on");
         }
 
     }
