@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce, gravityModifier;
     [SerializeField] private ParticleSystem dirtParticle, explosionParticle;
     [SerializeField] private AudioClip jumpSound, crashSound;
-    [SerializeField] QuizController quizControllerScript;
+    [SerializeField] private GameManager gameManager;
     private Animator playerAnimation;
     private AudioSource playerAudio;
     private Rigidbody playerRB;
@@ -26,7 +26,10 @@ public class PlayerController : MonoBehaviour
     // initializes player rigidbody, sets ground to true and sets gravity
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        if(GameManager.gameInProgress)
+        {
+            gameManager.BackToGame();
+        }
        
         
             transform.position = new Vector3(12.8f, .12f, .2f);
