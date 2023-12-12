@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public static bool gameOver = true;
     public static bool miniGame = false;
     public static float score;
+    private float lastScore;
     private AudioSource audioSource;
     private int timeRemaining = 60;
     private int miniGameCooldown = 10;
@@ -50,8 +51,7 @@ public class GameManager : MonoBehaviour
         GameInProgress();
         DisplayUI();
         EndGame();
-
-        
+        SetSpeed();
     }
 
     private void DisplayUI()
@@ -169,6 +169,22 @@ public class GameManager : MonoBehaviour
             InvokeRepeating("TimeCountdown", 1, 1);
             Debug.Log("working");
         };
+    }
+
+    private void SetSpeed()
+    {
+        if (score > lastScore)
+        {
+            lastScore = score;
+            StartCoroutine(ChangeSpeed());
+        }
+    }
+
+    IEnumerator ChangeSpeed()
+    {
+        speed = 5;
+        yield return new WaitForSeconds(9);
+        speed = 30;
     }
 }
 

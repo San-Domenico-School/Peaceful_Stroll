@@ -11,7 +11,7 @@ public class MoveLeft : MonoBehaviour
 
     private void Start()
     {
-        speed = 30;
+        speed = GameManager.speed;
         leftBound = -15;
         currentScore = GameManager.score;
 
@@ -32,8 +32,8 @@ public class MoveLeft : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SetSpeed();
-        
+        speed = GameManager.speed;
+
     }
 
     private void SetSpeed()
